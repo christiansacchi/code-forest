@@ -4,3 +4,5 @@ I'm a C, Python programmer and web developer so here are deposited lines of code
 
 # Projects
 - Deconde Song Lyrics (Python)
+- Chat client-server (C Programming)
+- Battaglia Navale (C Programming)
