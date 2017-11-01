@@ -13,7 +13,7 @@ createTable_autore = ''' CREATE TABLE 'autore' (
 	'cognome' varchar(128) DEFAULT NULL,
 	'anno' year(4) NOT NULL,
 
-	PRIMARY KEY ('id')
+	PRIMARY KEY ('id') AUTOINCREMENT
 ); ''';
 
 createTable_parola = ''' CREATE TABLE 'parola' (
@@ -22,7 +22,7 @@ createTable_parola = ''' CREATE TABLE 'parola' (
 	'lingua' varchar(128) NOT NULL,
 	'len' int(10) NOT NULL,
 
-	PRIMARY KEY ('id')
+	PRIMARY KEY ('id') AUTOINCREMENT
 ); ''';
 
 createTable_raccolta = ''' CREATE TABLE 'raccolta' (
@@ -30,7 +30,7 @@ createTable_raccolta = ''' CREATE TABLE 'raccolta' (
 	'nome' varchar(256) NOT NULL,
 	'tipo' varchar(256) NOT NULL,
 
-	PRIMARY KEY ('id')
+	PRIMARY KEY ('id') AUTOINCREMENT
 ); ''';
 
 createTable_testo = ''' CREATE TABLE 'testo' (
@@ -40,7 +40,7 @@ createTable_testo = ''' CREATE TABLE 'testo' (
 	'id_raccolta' int(10) NOT NULL,
 	'id_autore' int(10) NOT NULL,
 
-	PRIMARY KEY ('id'),
+	PRIMARY KEY ('id') AUTOINCREMENT,
 	FOREIGN KEY ('id_raccolta') REFERENCES raccolta('id'),
 	FOREIGN KEY ('id_autore') REFERENCES autore('id')
 ); ''';
