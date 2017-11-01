@@ -1,0 +1,298 @@
+int mvslst_init (unsigned long int mvs,
+bool _r, bool _l, bool _m,
+bool _u, bool _d, bool _e,
+bool _f, bool _b, bool _s,
+unsigned int _rotation) {
+
+if (_rotation > D) _rotation = D; // (_rotation > WI)
+
+unsigned int len = 0;
+unsigned int c = 0;
+
+if (_r) len++; if (_l) len++; if (_m) len++;
+if (_u) len++; if (_d) len++; if (_e) len++;
+if (_f) len++; if (_b) len++; if (_s) len++;
+len *= (_rotation+1);
+
+Move * mvsLst = create(sizeof(Move) * len);
+// sizeof(Move) is 8 byte, couse Move is move * type
+// so here i'm allocating an array on len pinters to move_structure
+// *mvs = mvsLst;
+
+for (int i = 0; (i < tri_allMoves_len) && (c < len); i++) {
+
+if (tri_allMoves[i]->ax == X) {
+if ( _r && (tri_allMoves[i]->nome == 'R') && (tri_allMoves[i]->rotType <= _rotation) ) {
+mvsLst[c++] = tri_allMoves[i];
+continue;
+}
+if ( _l && (tri_allMoves[i]->nome == 'L') && (tri_allMoves[i]->rotType <= _rotation) ) {
+mvsLst[c++] = tri_allMoves[i];
+continue;
+}
+if ( _m && (tri_allMoves[i]->nome == 'M') && (tri_allMoves[i]->rotType <= _rotation) )
+mvsLst[c++] = tri_allMoves[i];
+continue;
+}
+
+if (tri_allMoves[i]->ax == Y) {
+if ( _u && (tri_allMoves[i]->nome == 'U') && (tri_allMoves[i]->rotType <= _rotation) ) {
+mvsLst[c++] = tri_allMoves[i];
+continue;
+}
+if ( _d && (tri_allMoves[i]->nome == 'D') && (tri_allMoves[i]->rotType <= _rotation) ) {
+mvsLst[c++] = tri_allMoves[i];
+continue;
+}
+if ( _e && (tri_allMoves[i]->nome == 'E') && (tri_allMoves[i]->rotType <= _rotation) )
+mvsLst[c++] = tri_allMoves[i];
+continue;
+}
+
+if (tri_allMoves[i]->ax == Z) {
+if ( _f && (tri_allMoves[i]->nome == 'F') && (tri_allMoves[i]->rotType <= _rotation) ) {
+mvsLst[c++] = tri_allMoves[i];
+continue;
+}
+if ( _b && (tri_allMoves[i]->nome == 'B') && (tri_allMoves[i]->rotType <= _rotation) ) {
+mvsLst[c++] = tri_allMoves[i];
+continue;
+}
+if ( _s && (tri_allMoves[i]->nome == 'S') && (tri_allMoves[i]->rotType <= _rotation) )
+mvsLst[c++] = tri_allMoves[i];
+}
+}
+
+// Finito con la composizione del vettore ho bisogno di dare a mvs
+
+move *** mvs_p;
+mvs_p = (move ***)mvs;
+*mvs_p = mvsLst;
+
+return len;
+}
+
+move ** mvs;
+int mvs_l;
+mvs_l = mvslst_init((unsigned long int)&mvs, true, false, false, true, false, false, false, false, false, 2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ANALISI ALGORITMO -=-=- */
+/*for (j = 2, real = true; j < i; j++) {
+mcmp = alg->mvs[j];
+mcmp1 = alg->mvs[j-1];
+mcmp2 = alg->mvs[j-2];
+if (inSameAxes(*mcmp, *mcmp1) && isSameFace(*mcmp, *mcmp2)) {
+real = false;
+break;
+}
+}*/
+
+/*if (real == true) {
+for (j = 0; j < i; j++)
+printf("%s ", move_simbol(alg->mvs[j]));
+putchar('\n');
+}*/
+
+
+// CODE
+for (i = minMvs; i <= maxMvs; i++) {
+
+    printf("/**********************************/\n");
+
+    cmbs = create(sizeof(unsigned int) * i);
+
+    full = false;
+    while (!full) {
+
+        /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+        if (cmbs[0] >= lmt)
+            cmbs[0] = 0, cmbs[1]++;
+
+        /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+        
+        // COMPOSIZIONE ALGORITMO
+        mvrSLD = moveset->mover;
+        for (y = 0; y < cmbs[0]; y++, mvrSLD = mvrSLD->mvrNext);
+        m = mvrSLD->m;
+        
+        printf("%s ", move_simbol(m));
+        
+        
+        for (j = 1; j < i; j++) {
+            
+            lnkSLD = mvrSLD->lnk_mv;
+            
+            if (cmbs[j] >= mvrSLD->lnk_mv_l)
+                cmbs[j] = 0, cmbs[j+1]++;
+            
+            for (y = 0; y < cmbs[j]; y++)
+                lnkSLD = lnkSLD->next;
+            
+            mvrSLD = lnkSLD->link;
+            m = mvrSLD->m;
+            
+            printf("%s ", move_simbol(m));
+        }
+        putchar('\n');
+        
+        // ANALISI ALGORITMO
+        // ...
+        
+        /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+        
+        for (j = 0, c = 0; j < i; j++) {
+            if (j == 0) lmt = moveset->mover_l;
+            else lmt = mvr->lnk_mv_l;
+            
+            if (cmbs[j] >= lmt-1) c++;
+        }
+        
+        if (c == i)
+            full = true;
+        else
+            full =  false;
+        
+        /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+        
+        cmbs[0]++;
+    }
+    
+    free(cmbs);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+void tri_solver (RubikCube cube, RubikCube c_fin,
+                 const unsigned int minMvs, const unsigned int maxMvs, const unsigned int maxSltns,
+                 Mover moveset) {
+    
+    // VAR
+    Mover_node mvr = moveset->mover;
+    Mover_node mvrSLD; // Mover Node SLIDE
+    Mover_link lnkSLD; // Mover Node SLIDE
+    Move m;
+    
+    unsigned int * cmbs;
+    
+    int lmt;
+    bool full = false;
+    int i, j, y, c;
+    
+    
+    // CODE
+    for (i = minMvs; i <= maxMvs; i++) {
+        
+        printf("/**********************************/\n");
+        
+        cmbs = create(sizeof(unsigned int) * i);
+        
+        full = false;
+        while (!full) {
+            
+            /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+            
+            for (j = 0; j < i; j++) {
+                
+                if (j == 0)
+                    lmt = moveset->mover_l;
+                else
+                    lmt = mvr->lnk_mv_l;
+                
+                if (cmbs[j] >= lmt)
+                    cmbs[j] = 0, cmbs[j+1]++;
+            }
+            
+            /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+            
+            // COMPOSIZIONE ALGORITMO
+            mvrSLD = moveset->mover;
+            for (y = 0; y < cmbs[0]; y++, mvrSLD = mvrSLD->mvrNext);
+            m = mvrSLD->m;
+            
+            printf("%s ", move_simbol(m));
+            
+            
+            for (j = 1; j < i; j++) {
+                
+                lnkSLD = mvrSLD->lnk_mv;
+                for (y = 0; y < cmbs[j]; y++)
+                    lnkSLD = lnkSLD->next;
+                
+                mvrSLD = lnkSLD->link;
+                m = mvrSLD->m;
+                
+                printf("%s ", move_simbol(m));
+            }
+            putchar('\n');
+            
+            // ANALISI ALGORITMO
+            // ...
+            
+            /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+            
+            for (j = 0, c = 0; j < i; j++) {
+                if (j == 0) lmt = moveset->mover_l;
+                else lmt = mvr->lnk_mv_l;
+                
+                if (cmbs[j] >= lmt-1) c++;
+            }
+            
+            if (c == i)
+                full = true;
+            else
+                full =  false;
+            
+            /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+            
+            cmbs[0]++;
+        }
+        
+        free(cmbs);
+    }
+    
+}
+
+
+
+
+
+
+
+
+
