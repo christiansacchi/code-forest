@@ -4,6 +4,7 @@ I'm a C, Python programmer and web developer so here are deposited lines of code
 
 # Projects
 - Deconde Song Lyrics (Python)... in progress
+- SaraScript, an Articulate StoryLine 2-3 project composer (python)
 - Chat client-server (C Programming)
 - Battaglia Navale (C Programming)
 - Rubio Another Face (C programming), a Rubik's Cube C module
