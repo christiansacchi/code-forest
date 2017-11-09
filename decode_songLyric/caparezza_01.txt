@@ -1,4 +1,6 @@
-Forever Jung
+-=[a]=-|Caparezza,,1973,rap
+-=[r]=-|Prisoner 709,album
+-=[t]=-|4,Forever Jung - lo psicologo,2017
 
 Prisoner 709 did the bad thing
 Prisoner 709 did the bad thing
@@ -72,9 +74,9 @@ Forever Jung, forever Jung, forever Jung
 Forever Jung, forever Jung, forever Jung
 Forever Jung, forever Jung, forever Jung
 
----
+-=[FIN]=-
 
-Prisoner 709
+-=[t]=-|2,Prisoner 709 - la pena,2017
 
 Seven, nine
 Seven, nine
@@ -171,3 +173,5 @@ Seven o nine
 Seven o nine
 Seven o nine
 Seven o nine
+
+-=[FIN]=-
