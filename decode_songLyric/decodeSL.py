@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
+# LINK UTILI
+# - https://sqlite.org/faq.html
+
 # decode_songLyric.py - 2017 
 
 import io
 import sys
 from wordreference_request import WordReference_word_validation
 from createDB import Wordb
+from dic/dicationizer import dicationizer
 
 
 
@@ -33,7 +37,29 @@ class DecodeSL (object):
 
 		return w
 
-	def word_validate (self):
+	def word_validate (self, w):
+		
+		# CONTROLLO -1-
+		# Parola gia controllata
+		if w in self.wordRef:
+			return w
+
+		# CONTROLLO -2-
+		# Controllo dizionario locale
+
+
+		# CONTROLLO -3-
+		# Controllo tramite wordreference
+		try:
+			w = wr.isword(w)
+		except:
+			print("FALLITO! Fallito sulla parola: {0}".format(w))
+			sys.exit("FALLITO! Fallito sulla parola: {0}".format(w))
+
+
+		return w
+
+	def is_badword (self):
 		pass
 
 	def decode (self, f):
@@ -69,11 +95,9 @@ class DecodeSL (object):
 					dsl.db.c.execute('SELECT * FROM idcounter')
 					print (*dsl.db.c.fetchall())
 
-
 					dsl.db.c.execute('SELECT * FROM testo')
 					print (dsl.db.c.fetchone())
 					print (dsl.db.c.fetchone())
-
 					raise e
 				
 				continue
@@ -86,10 +110,12 @@ class DecodeSL (object):
 				if (len(w) < 1):
 					continue
 
-				w = self.word_linearize(w)
 
-				# def add_parola (self, word, lingua, iniziale, _len, isbad):
-				if w in self.wordRef:
+				w = self.word_linearize(w)
+				w = self.word_validate(w)
+
+
+				if w in self.wordRef: 			# def add_parola (self, word, lingua, iniziale, _len, isbad):
 					self.wordRef[w][0] += 1
 				else:
 					self.wordRef[w] = [1, 'ita', w[0], len(w), False, None]
@@ -111,23 +137,17 @@ dsl.decode_start()
 
 dsl.decode('caparezza_01.txt')
 
-dsl.db.c.execute('SELECT * FROM autore')
-print (dsl.db.c.fetchone())
-dsl.db.c.execute('SELECT * FROM raccolta')
-print (dsl.db.c.fetchone())
-print (dsl.db.c.fetchone())
-dsl.db.c.execute('SELECT * FROM testo')
-print (dsl.db.c.fetchone())
-print (dsl.db.c.fetchone())
+dsl.db.c.execute("""SELECT * FROM autore""")
+print (*dsl.db.c.fetchall(), sep='\n'); print ('\n')
+dsl.db.c.execute("""SELECT * FROM raccolta""")
+print (*dsl.db.c.fetchall(), sep='\n'); print ('\n')
+dsl.db.c.execute("""SELECT * FROM testo""")
+print (*dsl.db.c.fetchall(), sep='\n'); print ('\n')
+dsl.db.c.execute("""SELECT * FROM idcounter""")
+print (*dsl.db.c.fetchall()); print ('\n')
 
 
-dsl.db.c.execute("""UPDATE 'idcounter' SET 'cont'=100 WHERE 'id'=1;""")
-
-dsl.db.c.execute('SELECT * FROM idcounter')
-print (*dsl.db.c.fetchall())
-
-
-dsl.decode_end()
+# dsl.decode_end()
 
 
 
