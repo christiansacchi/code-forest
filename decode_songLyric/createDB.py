@@ -44,15 +44,15 @@ class Wordb (object):
 		self.conn = lite.connect(self.dbname_f)
 		self.c = self.conn.cursor()
 
-		self.c.execute("""CREATE TABLE 'autore' ('id' int(10) NOT NULL,'nome' varchar(128) NOT NULL,'cognome' varchar(128) DEFAULT NULL,'anno' year(4) NOT NULL,'genere' varchar(128) DEFAULT NULL,PRIMARY KEY ('id'));""")
-		self.c.execute("""CREATE TABLE 'parola' ('id' bigint(20) NOT NULL,'word' varchar(256) NOT NULL,'lingua' varchar(128) NOT NULL,'iniziale' varchar(1) NOT NULL,'len' int(10) NOT NULL,'isbad' boolean NOT NULL,PRIMARY KEY ('id'));""")
-		self.c.execute("""CREATE TABLE 'raccolta' ('id' int(10) NOT NULL,'nome' varchar(256) NOT NULL,'tipo' varchar(256) NOT NULL,PRIMARY KEY ('id'));""")
-		self.c.execute("""CREATE TABLE 'testo' ('id' int(10) NOT NULL,'num' int(5) NOT NULL,'nome' varchar(256) NOT NULL,'lyrics' text,'anno' year(4) NOT NULL,'id_raccolta' int(10) NOT NULL,'id_autore' int(10) NOT NULL,PRIMARY KEY ('id'),FOREIGN KEY ('id_raccolta') REFERENCES raccolta('id'),FOREIGN KEY ('id_autore') REFERENCES autore('id'));""")
-		self.c.execute("""CREATE TABLE 'composizione' ('id_testo' int(10) NOT NULL,'id_parola' bigint(20) NOT NULL,'frequenza' int(10) NOT NULL,CONSTRAINT 'id_composizione' PRIMARY KEY ('id_testo','id_parola'),FOREIGN KEY ('id_testo') REFERENCES testo('id'),FOREIGN KEY ('id_parola') REFERENCES parola('id'));""")
-		self.c.execute("""CREATE TABLE 'idcounter' ('id' int(3) NOT NULL,'nome' varchar(15) NOT NULL,'cont' bigint(20) NOT NULL,PRIMARY KEY ('id'));""")
+		self.c.execute("""CREATE TABLE autore (id int(10) NOT NULL,nome varchar(128) NOT NULL,cognome varchar(128) DEFAULT NULL,anno year(4) NOT NULL,genere varchar(128) DEFAULT NULL,PRIMARY KEY (id));""")
+		self.c.execute("""CREATE TABLE parola (id bigint(20) NOT NULL,word varchar(256) NOT NULL,lingua varchar(128) NOT NULL,iniziale varchar(1) NOT NULL,len int(10) NOT NULL,isbad boolean NOT NULL,PRIMARY KEY (id));""")
+		self.c.execute("""CREATE TABLE raccolta (id int(10) NOT NULL,nome varchar(256) NOT NULL,tipo varchar(256) NOT NULL,PRIMARY KEY (id));""")
+		self.c.execute("""CREATE TABLE testo (id int(10) NOT NULL,num int(5) NOT NULL,nome varchar(256) NOT NULL,lyrics text,anno year(4) NOT NULL,id_raccolta int(10) NOT NULL,id_autore int(10) NOT NULL,PRIMARY KEY (id),FOREIGN KEY (id_raccolta) REFERENCES raccolta(id),FOREIGN KEY (id_autore) REFERENCES autore(id));""")
+		self.c.execute("""CREATE TABLE composizione (id_testo int(10) NOT NULL,id_parola bigint(20) NOT NULL,frequenza int(10) NOT NULL,CONSTRAINT id_composizione PRIMARY KEY (id_testo,id_parola),FOREIGN KEY (id_testo) REFERENCES testo(id),FOREIGN KEY (id_parola) REFERENCES parola(id));""")
+		self.c.execute("""CREATE TABLE idcounter (id int(10) NOT NULL,nome varchar(15) NOT NULL,cont bigint(20) NOT NULL,PRIMARY KEY (id));""")
 
-		self.c.execute("""INSERT INTO 'raccolta' ('id', 'nome', 'tipo') VALUES (0, 'singolo', 'album');""")
-		self.c.execute("""INSERT INTO 'idcounter' ('id', 'nome', 'cont') VALUES (0, 'autore', 0),(1, 'parola', 0),(2, 'raccolta', 1),(3, 'testo', 0);""")
+		self.c.execute("""INSERT INTO raccolta (id, nome, tipo) VALUES (0, 'singolo', 'album');""")
+		self.c.execute("""INSERT INTO idcounter (id, nome, cont) VALUES (0, 'autore', 0),(1, 'parola', 0),(2, 'raccolta', 1),(3, 'testo', 0);""")
 
 		self.end()
 		self.start()
@@ -61,7 +61,7 @@ class Wordb (object):
 
 	def increment_id (self, _idtable):
 		self.CONTs[_idtable] += 1
-		ext = """UPDATE 'idcounter' SET 'cont'={0} WHERE 'id'={1};""".format(self.CONTs[_idtable], _idtable);
+		ext = """UPDATE idcounter SET cont={0} WHERE id={1};""".format(self.CONTs[_idtable], _idtable);
 		self.c.execute(ext)
 		self.conn.commit()
 
@@ -70,7 +70,7 @@ class Wordb (object):
 
 
 	def add_testo (self, num, nome, anno, id_autore, id_raccolta, lyrics='NULL'):
-		ext = """INSERT INTO 'testo' ('id', 'num', 'nome', 'lyrics', 'anno', 'id_raccolta', 'id_autore') 
+		ext = """INSERT INTO testo (id, num, nome, lyrics, anno, id_raccolta, id_autore) 
 				VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')
 				""".format(self.CONTs[self.ID_TESTO], num, nome, lyrics, anno, id_raccolta, id_autore);
 		self.c.execute(ext)
@@ -80,7 +80,7 @@ class Wordb (object):
 
 
 	def add_autore (self, nome, cognome, anno, genere):
-		ext = """INSERT INTO 'autore' ('id', 'nome', 'cognome', 'anno', 'genere') 
+		ext = """INSERT INTO autore (id, nome, cognome, anno, genere) 
 				VALUES ('{0}', '{1}', '{2}', '{3}', '{4}')
 				""".format(self.CONTs[self.ID_AUTORE], nome, cognome, anno, genere);
 		self.c.execute(ext)
@@ -90,7 +90,7 @@ class Wordb (object):
 
 
 	def add_raccolta (self, nome, tipo):
-		ext = """INSERT INTO 'raccolta' ('id', 'nome', 'tipo') VALUES ('{0}', '{1}', '{2}')
+		ext = """INSERT INTO raccolta (id, nome, tipo) VALUES ('{0}', '{1}', '{2}')
 				""".format(self.CONTs[self.ID_RACCOLTA], nome, tipo);
 		self.c.execute(ext)
 		
@@ -99,7 +99,7 @@ class Wordb (object):
 
 
 	def add_parola (self, word, lingua, iniziale, _len, isbad):
-		ext = """INSERT INTO 'parola' ('id', 'word', 'lingua', 'iniziale', 'len', 'isbad') 
+		ext = """INSERT INTO parola (id, word, lingua, iniziale, len, isbad) 
 				VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')
 				""".format(self.CONTs[self.ID_PAROLA], word, lingua, iniziale, _len, isbad);
 		self.c.execute(ext)
@@ -109,7 +109,7 @@ class Wordb (object):
 
 
 	def add_composizione (self, id_testo, id_parola, frequenza):
-		ext = """INSERT INTO 'composizione' ('id_testo', 'id_parola', 'frequenza') VALUES ('{0}', '{1}', '{2}')
+		ext = """INSERT INTO 'composizione' (id_testo, id_parola, frequenza) VALUES ('{0}', '{1}', '{2}')
 				""".format(id_testo, id_parola, frequenza);
 		self.c.execute(ext)
 
@@ -194,7 +194,7 @@ createTable_composizione = """ CREATE TABLE 'composizione' (
 ); """;
 
 createTable_indiciCounter = """ CREATE TABLE 'idcounter' (
-	'id' int(3) NOT NULL,
+	'id' int(10) NOT NULL,
 	'nome' varchar(15) NOT NULL,
 	'cont' bigint(20) NOT NULL,
 	PRIMARY KEY ('id')
