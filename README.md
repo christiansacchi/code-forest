@@ -11,4 +11,4 @@ I'm a C, Python programmer and web developer so here are deposited lines of code
 - RubikCube (Unity3D), Rubio Another Face porting in Unity3D
 
 # Disclaimer
-This repository has a showcase purpose for all my work, so the code you download may not work at the first compile and could even be miss.
+This repository has a showcase purpose for all my work, so the code you download may not work at the first compile and some file could even be miss.
