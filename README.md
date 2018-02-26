@@ -3,8 +3,7 @@ Code Forest goup all code i ever written.
 I'm a C, Python programmer and web developer so here are deposited lines of code from multiple lenguages.
 
 # Projects
-- Machine Learning Perceptron in C Programming
-  A Perceptron can recognize the type of Iris Flower
+- Machine Learning Perceptron in C Programming - A Perceptron can recognize the type of Iris Flower
 - Deconde Song Lyrics (Python)... in progress
 - SaraScript, an Articulate StoryLine 2-3 project composer (python)
 - Chat client-server (C Programming)
