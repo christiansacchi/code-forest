@@ -1,15 +1,12 @@
-# Code-forest
-Code Forest goup all code i ever written. 
-I'm a C, Python programmer and web developer so here are deposited lines of code from multiple lenguages.
+### Christian Sacchi
+<img src="https://user-images.githubusercontent.com/32966583/163948995-226f51e6-b88e-49a9-9ff9-6cd4ae30a996.JPG" alt="drawing" width="110"/>
 
-# Projects
-- Machine Learning Perceptron in C Programming - A Perceptron can recognize the type of Iris Flower
-- Deconde Song Lyrics (Python)... in progress
-- SaraScript, an Articulate StoryLine 2-3 project composer (python)
-- Chat client-server (C Programming)
-- Battaglia Navale, User VS AI, AI vs AI (C Programming)
-- Rubio Another Face (C programming), a Rubik's Cube C module
-- RubikCube (Unity3D), Rubio Another Face porting in Unity3D
+Developer from [*Buccinasco (MI), Italy*](https://www.google.it/maps/place/20090+Buccinasco+MI/@45.4071293,9.0749403,13z/data=!3m1!4b1!4m5!3m4!1s0x4786c2dd793b7d27:0x40678022e66f280!8m2!3d45.4127669!4d9.1031705)
 
-# Disclaimer
-This repository has a showcase purpose for all my work, so the code you download may not work at the first compile and some file could even be miss.
+Contact me: me@christiansacchi.it
+
+---
+
+## Working Experiences
+
+##### 
